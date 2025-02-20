@@ -126,7 +126,7 @@
         function getValidationClass(value, regex) {
             if (!regex || value === '[manquant]') return '';
             try {
-                return new RegExp(regex).test(value) ? 
+                return new RegExp(regex, 'i').test(value) ? 
                     'validation-success' : 'validation-fail';
             } catch (e) {
                 return '';
