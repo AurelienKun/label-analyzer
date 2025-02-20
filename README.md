@@ -18,3 +18,8 @@ Quand vous modifiez les regex, vous pouvez exporter un nouveau fichier de config
 ## Comment ajouter/modifier/supprimer un label ?
 Simple ! 
 Editez votre fichier `config.json` et modifiez le nom, le regex, voir même la liste (ordre, nouvel élément etc) des labels attendus. Une fois modifié, il ne vous reste plus qu'à l'importer dans la page html.
+
+## Accès directe à l'outil
+Si vous avez déjà votre fichier config, vous pouvez accéder directement à l'outil via ce lien :
+
+https://aurelienkun.github.io/label-analyzer/label-analyzer.html
