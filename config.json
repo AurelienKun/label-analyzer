@@ -1,0 +1,78 @@
+[
+  {
+    "name": "site",
+    "regex": "^(viam|vmapp)$"
+  },
+  {
+    "name": "emplacement",
+    "regex": "^(poilist|datasheet)$"
+  },
+  {
+    "name": "langue",
+    "regex": "^(fr|es|de)$"
+  },
+  {
+    "name": "page",
+    "regex": ""
+  },
+  {
+    "name": "device",
+    "regex": ""
+  },
+  {
+    "name": "ville de départ",
+    "regex": ""
+  },
+  {
+    "name": "ville d'arrivée",
+    "regex": ""
+  },
+  {
+    "name": "prix",
+    "regex": ""
+  },
+  {
+    "name": "type d'hébergement",
+    "regex": ""
+  },
+  {
+    "name": "recherche de dispo",
+    "regex": ""
+  },
+  {
+    "name": "nom de l'A/B test",
+    "regex": ""
+  },
+  {
+    "name": "variable de l'A/B test",
+    "regex": ""
+  },
+  {
+    "name": "iDPOIViaM",
+    "regex": ""
+  },
+  {
+    "name": "iDPOIBooking",
+    "regex": ""
+  },
+  {
+    "name": "trackingAcquisition",
+    "regex": ""
+  },
+  {
+    "name": "distance de l'itinéraire",
+    "regex": ""
+  },
+  {
+    "name": "date/heure redirection",
+    "regex": ""
+  },
+  {
+    "name": "triggerSE",
+    "regex": ""
+  },
+  {
+    "name": "id de l'hotel",
+    "regex": ""
+  }
+]

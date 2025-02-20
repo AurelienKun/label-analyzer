@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body { font-family: Arial; margin: 20px; }
+        .input-container { margin: 20px 0; }
+        #urlInput { width: 100%; padding: 8px; }
+        .decoded-url { margin: 10px 0; word-break: break-all; }
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        th, td { padding: 10px; border: 1px solid #ddd; text-align: left; }
+        tr:nth-child(even) { background: #f5f5f5; }
+        .validation-fail { background: #ffebee !important; }
+        .validation-success { background: #e8f5e9 !important; }
+        .error { color: red; }
+        button { padding: 8px 16px; margin: 5px; }
+        .regex-input { width: 100%; }
+    </style>
+</head>
+<body>
+    <input type="file" id="importConfig" accept=".json" style="display: none">
+    <button onclick="document.getElementById('importConfig').click()">Importer Configuration</button>
+    
+    <div class="input-container">
+        <input type="text" id="urlInput" placeholder="Entrez l'URL">
+        <div id="decodedUrl" class="decoded-url"></div>
+        <div id="labelValue" class="decoded-url"></div>
+    </div>
+    
+    <div id="tableContainer"></div>
+    <button id="exportConfig" style="display: none">Exporter Configuration</button>
+
+    <script>
+        let currentConfig = [];
+        let labelValues = [];
+
+        document.getElementById('importConfig').addEventListener('change', async (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                const text = await file.text();
+                currentConfig = JSON.parse(text);
+                updateTable();
+                document.getElementById('exportConfig').style.display = 'block';
+            }
+        });
+
+        document.getElementById('urlInput').addEventListener('input', (e) => {
+            const url = e.target.value;
+            if (!url) {
+                document.getElementById('decodedUrl').textContent = '';
+                document.getElementById('labelValue').textContent = '';
+                labelValues = [];
+                updateTable();
+                return;
+            }
+
+            const decodedUrl = decodeURIComponent(url);
+            document.getElementById('decodedUrl').textContent = decodedUrl;
+
+            const urlObj = new URL(decodedUrl);
+            const labelParam = urlObj.searchParams.get('label');
+            document.getElementById('labelValue').textContent = `Label: ${labelParam || ''}`;
+
+            labelValues = labelParam ? labelParam.split('|') : [];
+            updateTable();
+        });
+
+        document.getElementById('exportConfig').addEventListener('click', () => {
+            const configStr = JSON.stringify(currentConfig, null, 2);
+            const blob = new Blob([configStr], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'config.json';
+            a.click();
+            URL.revokeObjectURL(url);
+        });
+
+        function updateTable() {
+            if (!currentConfig.length) return;
+
+            const container = document.getElementById('tableContainer');
+            let html = `
+                <table>
+                    <tr>
+                        <th>Nom du label</th>
+                        <th>Valeur extraite</th>
+                        <th>Validation (regex)</th>
+                    </tr>
+            `;
+
+            // Configuration items
+            currentConfig.forEach((item, i) => {
+                let value = '';
+                if (i >= labelValues.length) {
+                    value = '[manquant]';
+                } else if (labelValues[i] !== undefined) {
+                    value = labelValues[i];
+                }
+
+                const validationClass = getValidationClass(value, item.regex);
+                html += `
+                    <tr>
+                        <td>${item.name}</td>
+                        <td class="${validationClass}">${value}</td>
+                        <td><input type="text" class="regex-input" value="${item.regex || ''}" 
+                            onchange="updateRegex(${i}, this.value)"></td>
+                    </tr>
+                `;
+            });
+
+            // Extra values
+            labelValues.slice(currentConfig.length).forEach(value => {
+                html += `
+                    <tr>
+                        <td class="error">Non attendu!</td>
+                        <td>${value}</td>
+                        <td></td>
+                    </tr>
+                `;
+            });
+
+            html += '</table>';
+            container.innerHTML = html;
+        }
+
+        function getValidationClass(value, regex) {
+            if (!regex || value === '[manquant]') return '';
+            try {
+                return new RegExp(regex).test(value) ? 
+                    'validation-success' : 'validation-fail';
+            } catch (e) {
+                return '';
+            }
+        }
+
+        function updateRegex(index, value) {
+            currentConfig[index].regex = value;
+            updateTable();
+        }
+    </script>
+</body>
+</html>
