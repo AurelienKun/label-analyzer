@@ -9,15 +9,15 @@
   },
   {
     "name": "langue",
-    "regex": "^(fr|es|de)$"
+    "regex": "^(fr|es|de|it|nl|pt|at|en)$"
   },
   {
     "name": "page",
-    "regex": ""
+    "regex": "^(homepage|datasheet)$"
   },
   {
     "name": "device",
-    "regex": ""
+    "regex": "^(desktop|mobile|tablet)$"
   },
   {
     "name": "ville de départ",
@@ -33,11 +33,11 @@
   },
   {
     "name": "type d'hébergement",
-    "regex": ""
+    "regex": "^(hotel|bb|residence|camping)$"
   },
   {
     "name": "recherche de dispo",
-    "regex": ""
+    "regex": "^(on|off)$"
   },
   {
     "name": "nom de l'A/B test",
@@ -65,14 +65,14 @@
   },
   {
     "name": "date/heure redirection",
-    "regex": ""
+    "regex": "^\\d{13}$"
   },
   {
     "name": "triggerSE",
     "regex": ""
   },
   {
-    "name": "id de l'hotel",
-    "regex": ""
+    "name": "Star",
+    "regex": "^[0-5]$"
   }
 ]
